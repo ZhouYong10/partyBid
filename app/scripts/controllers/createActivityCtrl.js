@@ -40,38 +40,26 @@ angular.module("partyBidApp")
             $location.path("/activitySignUp");
         }
 
-        //绑定创建活动按
-        $scope.createAct = function(){   //绑定创建活动按
+        //绑定创建活动按钮
+        $scope.createAct = function(){   //绑定创建活动按钮
             var actName = $scope.actName;
 
-            if(actName){  //如果用户输入了活动名称，就创建相应的活动
+            if(acts.length){
 
-                if(acts.length > 0){
+                for(var x = 0; x < acts.length; x++){
 
-                    for(x = 0; x < acts.length; x++){
+                    if(acts[x].name == actName){
 
-                        if(acts[x].name == actName){
+                        messageDis.style.display = "";
 
-                            messageDis.style.display = "";
-                            $scope.message = "活动名称已存在，请重新命名。";
-                            return;
-                        }
+                        $scope.message = "活动名称已经存在，请重新输入。";
+
+                        return;
                     }
-
-                   addAct(acts,actName);
-                   return;
-
                 }
-
-                addAct(acts,actName);
-
-            }else{   //活动名称为空，就弹出提示框
-
-                messageDis.style.display = "";
-
-                $scope.message = "活动名称不能为空，请输入名称。";
-
             }
+
+            addAct(acts,actName);
 
         };
     });

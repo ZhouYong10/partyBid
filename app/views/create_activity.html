@@ -7,16 +7,18 @@
     </div>
 </header>
 
-<div id="wrapper" class="wrapper scrollable">
+<div id="wrapper" class="wrapper scrollable" align="center">
 
 
             <h4 align="center">活动名称</h4>
             <p align="center"><input type="text" ng-model="actName" ng-click="actNameOnfocus()"></p>
-            <div align="center" id="message">
-                <font color="red"><p>{{message}}</p></font>
-            </div>
 
-        <p align="center"> <button class="btn-style btn-3" ng-click="createAct()">创建活动</button></p>
+          <font color="red"> <p align="center" id="message">{{message}}</p></font>
+
+
+
+
+        <p align="center"> <button class="btn btn-2" ng-disabled="!actName" ng-click="createAct()">创建活动</button></p>
 
 
 </div>
