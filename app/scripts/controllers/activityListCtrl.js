@@ -4,11 +4,9 @@
 angular.module('partyBidApp')
     .controller('activityListCtrl',function($scope,$location){
 
-        if(localStorage.acts){
+        if(localStorage.activities){
 
-            var acts = JSON.parse(localStorage.acts);
-
-            $scope.acts = acts;
+            $scope.activities = JSON.parse(localStorage.activities);;
 
         }else{
 

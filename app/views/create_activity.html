@@ -3,7 +3,7 @@
     创建活动
 
     <div class="header-left" id="turnBack">
-        <a href="#/activityList" class="side-slide-trigger btn-style btn-4">返回</a>
+        <a href="#/activityList" class="side-slide-trigger btn-style btn-4" ng-show="back">返回</a>
     </div>
 </header>
 
@@ -11,14 +11,14 @@
 
 
             <h4 align="center">活动名称</h4>
-            <p align="center"><input type="text" ng-model="actName" ng-click="actNameOnfocus()"></p>
+            <p align="center"><input type="text" ng-model="activity_name" ng-click="onFocus()"></p>
 
-          <font color="red"> <p align="center" id="message">{{message}}</p></font>
-
-
+          <font color="red"> <p align="center" ng-show="message">活动名已存在，请重新输入。</p></font>
 
 
-        <p align="center"> <button class="btn btn-2" ng-disabled="!actName" ng-click="createAct()">创建活动</button></p>
+
+
+        <p align="center"> <button class="btn btn-2" ng-disabled="!activity_name" ng-click="create_activity()">创建活动</button></p>
 
 
 </div>
