@@ -3,112 +3,96 @@
 function Activity(name){
 
     this.name = name;
+    this.status = Global.NO_START;
 
 }
 
-Activity.prototype.getName = function(){
+getActivities = function(){
 
-
+   return JSON.parse(localStorage.getItem("activities")) || [] ;
 };
 
 
-Activity.prototype.setName = function(activity_name){
+saveActivities = function(activities){
 
-
+    localStorage.activities = JSON.stringify(activities);
 };
 
 
-Activity.prototype.start = function(user){
+createActivity = function(activity){
 
-    //定义一个变量，接收存入的所有报名信息
-    var user_infos ;
+    var activities = getActivities();
 
-    //获取报名者的姓名和号码
-    var user_name = json_message.messages[0].message;
-    var user_phone = json_message.messages[0].phone;
+    activities.unshift(activity);
 
-    var user_info = {
-        "name":user_name,
-        "phone":user_phone
-    };
-
-    //判断是否已经有报名者信息，如果有报名者信息，则遍历信息是否重复
-    if(localStorage.user_info){
-        user_infos = JSON.parse(localStorage.user_info);
-        //遍历报名者信息
-        for(var x = 0; x < user_infos.length; x++){
-            //报名信息重复，反馈用户已经报名
-            if(user_phone == user_infos[x]){
-                messageToUser = "您已经报名，不能重复报名。";
-                return;
-            }
-        }
-    }
-
-    //不存在报名信息，将报名信息直接存入
-    user_infos = new Array();
-    user_infos.unshift(user_info);
-
-    this.send_sms(user_phone,messageToUser);
-
+    saveActivities(activities);
 };
 
 
-Activity.prototype.end = function(user){
-
-};
-
-
-Activity.prototype.no_start = function(user){
-
-};
-
-
-Activity.prototype.create = function(){
-
-    var flag = false ;
-
-    var activities ;
-
-    if(localStorage.activities){
-        activities = JSON.parse(localStorage.activities);
-    }else{
-        activities = new Array();
-    }
-
-    if(!this.name_exist(activities)){
-
-        activities.unshift(this);
-
-        localStorage.activities = JSON.stringify(activities);
-
-        flag = true ;
-    }
-
-    return flag ;
-};
-
-
-Activity.prototype.name_exist = function(activities){
-
-    var flag = false ;
+findIndexByName = function(activityName,activities){
 
     for(var x = 0; x < activities.length; x++){
 
-        if(this.name == activities[x].name){
-
-            flag = true;
-            break;
+        if(activityName == activities[x].name){
+            return x;
         }
+    }
+    return -1 ;
+};
+
+
+activityExist = function(activity){
+
+    var flag = false ;
+
+    var activities = getActivities();
+
+    if(findIndexByName(activity.name,activities) != -1){
+
+        flag = true;
     }
 
     return flag;
-
-}
-
-
-Activity.prototype.remove = function(activity_name){
-
-
 };
 
+
+changeStateByName = function(activityName,status){
+
+    var activities = getActivities();
+
+    var index = findIndexByName(activityName,activities);
+
+    activities[index].status = status;
+
+    saveActivities(activities);
+};
+
+
+saveActivity = function(activity,saveName){
+
+    localStorage.setItem(saveName,JSON.stringify(activity));
+};
+
+
+getActivityByHouseName = function(houseName){
+    return JSON.parse(localStorage.getItem(houseName));
+};
+
+
+isTheRun = function(activity){
+
+    var activity_run = getActivityByHouseName(Global.RUN);
+    if(activity.name == activity_run.name){
+        return true;
+    }
+    return false;
+};
+
+
+haveActivityRun = function(){
+
+    if(getActivityByHouseName(Global.RUN)){
+        return true;
+    }
+    return false;
+}

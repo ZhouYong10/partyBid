@@ -18,15 +18,13 @@ angular.module("partyBidApp")
         //绑定创建活动按钮
         $scope.create_activity = function(){
 
-            var activity_name = $scope.activity_name;
+            var activity = new Activity($scope.activity_name);
 
-            var activity = new Activity(activity_name);
-
-            if(activity.create()){
-                $location.path("/activityList");
-            }else{
+            if(activityExist(activity)){
                 $scope.message = true;
+                return ;
             }
-
+            createActivity(activity);
+            $location.path("/activityList");
         };
     });
