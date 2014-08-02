@@ -50,11 +50,13 @@ angular.module('partyBidApp')
 
             if(confirm("确认要结束本次报名吗？")){
 
-                $scope.start_end = "start" ;
+                $scope.able = true ;
 
                 removeActivity(Global.HOUSE_RUN);
 
                 freshActivitiesStatus(activity,Global.NO_START);
+
+                $location.path("/priceList");
             }
         };
 

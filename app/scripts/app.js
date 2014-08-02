@@ -19,6 +19,10 @@ angular
   ])
   .config(function ($routeProvider) {
     $routeProvider
+        .when('/priceList',{
+            templateUrl:'/views/price_list.html',
+            controller:'priceListCtrl'
+        })
         .when('/createActivity',{
             templateUrl:'views/create_activity.html',
             controller:'createActivityCtrl'
