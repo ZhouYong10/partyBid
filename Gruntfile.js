@@ -1,4 +1,4 @@
-// Generated on 2014-07-18 using generator-angular 0.9.5
+// Generated on 2014-07-21 using generator-angular 0.9.5
 'use strict';
 
 // # Globbing
@@ -368,7 +368,7 @@ module.exports = function (grunt) {
       'clean:server',
       'wiredep',
       'concurrent:server',
-      //'autoprefixer',
+//      'autoprefixer',
       'connect:livereload',
       'watch'
     ]);
@@ -382,7 +382,7 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'concurrent:test',
-    //'autoprefixer',
+//    'autoprefixer',
     'connect:test',
     'karma'
   ]);
@@ -392,7 +392,7 @@ module.exports = function (grunt) {
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
-   // 'autoprefixer',
+//    'autoprefixer',
     'concat',
     'ngmin',
     'copy:dist',

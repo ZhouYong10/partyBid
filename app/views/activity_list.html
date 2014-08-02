@@ -13,11 +13,11 @@
     <div class="wrapper-inner">
         <ul>
             <li ng-repeat="activity in activities" type="none" >
-            <a href="#/activitySignUp" class="btn-style btn-one"  ng-click="action(activity)">{{activity.name}}</a>
+            <a href="#/activitySignUp" ng-class="{true:'btn btn-one',false:'btn btn-one-f'}[activity.status == 'start']"
+               ng-click="action(activity)">{{activity.name}}</a>
             </li>
         </ul>
     </div>
 
 </div>
-
 

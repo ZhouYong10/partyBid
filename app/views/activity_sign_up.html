@@ -1,7 +1,7 @@
 
 
 <header>
-    报名
+    报名{{signUpNum}}
     <div class="header-right" ng-switch="start_end">
         <button class="btn-style btn-4" ng-switch-when="end" ng-click="end()">结束</button>
         <button class="btn btn-4" ng-switch-default="start" ng-disabled="able" ng-click="start()">开始</button>
@@ -10,6 +10,14 @@
         <a href="#/activityList" class="side-slide-trigger btn-style btn-4">返回</a>
     </div>
 </header>
+
+
+<div id="showUsers" class="wrapper scrollable">
+    <div class="form-wrapper" ng-repeat="user in users">
+        <a class="btn-style btn-3">{{user.name}}<i class="icon-angle-right">{{user.phone}}</i></a>
+    </div>
+</div>
+
 
 
 

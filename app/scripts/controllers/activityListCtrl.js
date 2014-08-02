@@ -15,7 +15,7 @@ angular.module('partyBidApp')
 
         $scope.action = function(activity){
 
-            saveActivity(activity,Global.READY_RUN);
+            saveActivity(activity,Global.HOUSE_READY_RUN);
         };
 
     });

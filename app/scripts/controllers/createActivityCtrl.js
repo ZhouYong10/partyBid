@@ -4,7 +4,7 @@
 angular.module("partyBidApp")
     .controller('createActivityCtrl',function($scope,$location){
 
-        if(localStorage.activities){
+        if(localStorage.getItem(Global.HOUSE_ACTIVITIES)){
             $scope.back = true;
         }else{
             $scope.back = false;
@@ -12,7 +12,7 @@ angular.module("partyBidApp")
 
         $scope.onFocus = function(){
             $scope.message = false;
-        }
+        };
 
 
         //绑定创建活动按钮
@@ -25,6 +25,7 @@ angular.module("partyBidApp")
                 return ;
             }
             createActivity(activity);
-            $location.path("/activityList");
+            saveActivity(activity,Global.HOUSE_READY_RUN);
+            $location.path("/activitySignUp");
         };
     });

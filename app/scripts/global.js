@@ -1,9 +1,13 @@
 var Global = {
-    NO_START : 1,
-    START : 2,
-    END : 3,
+    NO_START : "no",
+    START : "start",
+    END : "end",
+    HOLD : "hold",
 
-    READY_RUN : "ready",
-    RUN : "run"
+    HOUSE_ACTIVITIES : "activities",
+    HOUSE_READY_RUN : "ready",
+    HOUSE_RUN : "run",
+
+    HOUSE_USERS : "users" 
 
 };

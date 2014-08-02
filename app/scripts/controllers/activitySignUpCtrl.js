@@ -4,34 +4,59 @@
 angular.module('partyBidApp')
     .controller('activitySignUpCtrl',function($scope,$location) {
 
-        var activity ;
+        $scope.showUsers = function(houseName){
 
+            var users = $scope.users = getUsers(houseName);
+
+            $scope.signUpNum = users.length ? "(" + users.length + ")" + "人" : "";
+        };
+
+
+        var activity ;
         (
             function(){
-                activity = getActivityByHouseName(Global.READY_RUN);
 
                 if(haveActivityRun()){
-                    if(isTheRun(activity)){
+
+                    activity = getActivityByHouseName(Global.HOUSE_RUN);
+
+                    if(isTheRun(getActivityByHouseName(Global.HOUSE_READY_RUN))){
+                        $scope.showUsers(activity.name);
                         $scope.start_end = "end";
-                        return;
+                    }else{
+                        $scope.able = true;
+                        $scope.showUsers(getActivityByHouseName(Global.HOUSE_READY_RUN).name);
                     }
-                    $scope.able = true;
+
+                }else{
+                    activity = getActivityByHouseName(Global.HOUSE_READY_RUN);
+                    $scope.showUsers(activity.name);
                 }
             }
-            )();
-
-
+        )();
 
         $scope.start = function(){
 
-            saveActivity(activity,Global.RUN);
+            activity.status = Global.START;
+
+            saveActivity(activity,Global.HOUSE_RUN);
+
+            freshActivitiesStatus(activity,Global.START);
 
             $scope.start_end = "end" ;
         };
 
         $scope.end = function(){
 
+            if(confirm("确认要结束本次报名吗？")){
 
+                $scope.start_end = "start" ;
+
+                removeActivity(Global.HOUSE_RUN);
+
+                freshActivitiesStatus(activity,Global.NO_START);
+            }
         };
+
 
     });

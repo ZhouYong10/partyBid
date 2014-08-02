@@ -9,13 +9,13 @@ function Activity(name){
 
 getActivities = function(){
 
-   return JSON.parse(localStorage.getItem("activities")) || [] ;
+   return JSON.parse(localStorage.getItem(Global.HOUSE_ACTIVITIES)) || [] ;
 };
 
 
 saveActivities = function(activities){
 
-    localStorage.activities = JSON.stringify(activities);
+    localStorage.setItem(Global.HOUSE_ACTIVITIES,JSON.stringify(activities));
 };
 
 
@@ -43,16 +43,14 @@ findIndexByName = function(activityName,activities){
 
 activityExist = function(activity){
 
-    var flag = false ;
-
     var activities = getActivities();
 
     if(findIndexByName(activity.name,activities) != -1){
 
-        flag = true;
+        return true;
     }
 
-    return flag;
+    return false;
 };
 
 
@@ -68,20 +66,29 @@ changeStateByName = function(activityName,status){
 };
 
 
-saveActivity = function(activity,saveName){
+saveActivity = function(activity,houseName){
 
-    localStorage.setItem(saveName,JSON.stringify(activity));
+    localStorage.setItem(houseName,JSON.stringify(activity));
+};
+
+
+removeActivity = function(houseName){
+    var activity = getActivityByHouseName(houseName);
+
+    localStorage.removeItem(houseName);
+
+    return activity;
 };
 
 
 getActivityByHouseName = function(houseName){
-    return JSON.parse(localStorage.getItem(houseName));
+    return JSON.parse(localStorage.getItem(houseName)) || false;
 };
 
 
 isTheRun = function(activity){
 
-    var activity_run = getActivityByHouseName(Global.RUN);
+    var activity_run = getActivityByHouseName(Global.HOUSE_RUN);
     if(activity.name == activity_run.name){
         return true;
     }
@@ -90,9 +97,31 @@ isTheRun = function(activity){
 
 
 haveActivityRun = function(){
+    var activity = getActivityByHouseName(Global.HOUSE_RUN);
 
-    if(getActivityByHouseName(Global.RUN)){
-        return true;
+    if(activity){
+        return activity;
     }
     return false;
-}
+};
+
+
+freshActivitiesStatus = function(activity,status){
+    var activities = getActivities();
+
+    var index = findIndexByName(activity.name,activities);
+
+    activities[index].status = status;
+
+    saveActivities(activities);
+};
+
+
+freshActivityStatus = function(status,houseName){
+
+    var activity = getActivityByHouseName(houseName);
+
+    activity.status = status;
+
+    saveActivity(activity,houseName);
+};
