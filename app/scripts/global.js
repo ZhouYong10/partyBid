@@ -1,8 +1,8 @@
 var Global = {
     NO_START : "no",
-    START : "start",
+    SIGN_UP : "start",
+    PRICE : "price",
     END : "end",
-    HOLD : "hold",
 
     HOUSE_ACTIVITIES : "activities",
     HOUSE_READY_RUN : "ready",

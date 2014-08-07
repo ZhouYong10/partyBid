@@ -3,62 +3,153 @@ function User(name,phone){
 
     this.name = name;
     this.phone = phone;
+    this.price ;
+    this.priceNum;
 }
 
-getUserNameFromMsg = function(message){
+User.getUsers = function(activity){
+    return activity.users;
+};
 
-    var index = message.indexOf("+");
-    if(index == -1){
-        index = message.toLowerCase().indexOf("m");
-        if(index == -1 ){
-            return false;
-        }
+User.hadSignUp = function(signUpUser,signUpActivity){
+
+    var users = signUpActivity.users;
+
+    var index = findIndexById(signUpUser.phone,"phone",users);
+
+    if(index != -1){
+        return users[index];
     }
-    var userName = message.substring(index+1).replace(/^\s+|\s+$/g,"");
+    return false;
+};
 
-    return userName;
+User.freshSignUpList = function(signUpActivity){
+    var signUpScope = angular.element("#showUsers").scope();
+
+    if(typeof(signUpScope.showUsers) == "function"){
+
+        signUpScope.$apply(function(){
+
+            signUpScope.showUsers(signUpActivity);
+        });
+    }
+};
+
+User.save = function(signUpUser,signUpActivity){
+
+    var users = signUpActivity.users;
+
+    users.push(signUpUser);
+
+    Activity.freshActivities(signUpActivity);
+
+    User.freshSignUpList(signUpActivity);
+};
+
+User.signUp = function(signUpUser,signUpActivity){
+    var messageToUser;
+
+    if(User.hadSignUp(signUpUser,signUpActivity)){
+        messageToUser = "您已经报名了，不能重复报名。";
+    }else{
+        User.save(signUpUser,signUpActivity);
+        messageToUser = "恭喜，报名成功。";
+    }
+    return messageToUser;
+};
+
+User.readySignUp = function(name,userPhone){
+    var messageToUser;
+
+    var signUpActivity = Activity.findByStatus(Global.SIGN_UP);
+
+    if(signUpActivity){
+
+        var signUpUser = new User(name,userPhone);
+
+        messageToUser = User.signUp(signUpUser,signUpActivity);
+
+    }else if(Activity.findByStatus(Global.PRICE)){
+
+        messageToUser = "Sorry  报名已经结束，请等待下一次报名。";
+
+    }else{
+
+        messageToUser = "报名尚未开始，请稍等。";
+    }
+    return messageToUser;
 };
 
 
-saveUser = function(user,houseName){
 
-    var users = getUsers(houseName);
 
-    users.push(user);
 
-    localStorage.setItem(houseName,JSON.stringify(users));
 
-    freshUsersList(houseName);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+getUsers = function(activity){
+
+    return activity.users;
 };
 
 
-freshUsersList = function(houseName){
+freshUsersList = function(activity){
 
     var signUpScope = angular.element("#showUsers").scope();
 
     if(typeof(signUpScope.showUsers) == "function"){
         signUpScope.$apply(function(){
-            signUpScope.showUsers(houseName);
+            signUpScope.showUsers(activity);
 
         });
     }
 };
 
 
-getUsers = function(houseName){
+saveUser = function(user,activity){
 
-    return JSON.parse(localStorage.getItem(houseName))|| [];
+    var users = getUsers(activity);
+
+    users.push(user);
+
+    activity.users = users;
+
+    freshActivities(activity);
+
+    freshUsersList(activity);
 };
 
 
-haveUser = function(user,houseName){
+haveUser = function(user,activity){
 
-    var users = getUsers(houseName);
+    var users = getUsers(activity);
 
     for(var x = 0; x < users.length; x++){
 
         if(user.phone == users[x].phone){
-            return true;
+            return users[x];
         }
     }
 
@@ -68,29 +159,46 @@ haveUser = function(user,houseName){
 
 signUpSuccess = function(user,activity){
 
-    if(!haveUser(user,activity.name)){
-        saveUser(user,activity.name);
+    if(!haveUser(user,activity)){
+        saveUser(user,activity);
         return true;
     }
     return false;
 };
 
+*/
 
-signUp = function(user){
 
-    var messageToUser;
 
-    var activity = haveActivityRun();
 
-    if (activity) {
 
-        if (signUpSuccess(user,activity)) {
-            messageToUser = "恭喜，报名成功。";
-        } else {
-            messageToUser = "您已经报名了，不能重复报名。";
-        }
-    } else {
-        messageToUser = "报名尚未开始，请稍候.....";
-    }
-    return messageToUser;
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

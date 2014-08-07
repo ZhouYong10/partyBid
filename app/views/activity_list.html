@@ -1,19 +1,18 @@
 
 
-
-
 <header>
     活动列表
     <div class="header-right">
-        <a href="#/createActivity" class="btn-style btn-4"> 创建活动</a>
+        <a href="#createActivity" class="btn btn-4" ng-disabled="create" ng-click="createActivity()"> 创建活动</a>
     </div>
 </header>
+
 
 <div id="wrapper" class="wrapper scrollable">
     <div class="wrapper-inner">
         <ul>
             <li ng-repeat="activity in activities" type="none" >
-            <a href="#/activitySignUp" ng-class="{true:'btn btn-one',false:'btn btn-one-f'}[activity.status == 'start']"
+            <a ng-class="{true:'btn btn-one',false:'btn btn-one-f'}[activity.status == 'start' || activity.status == 'price']"
                ng-click="action(activity)">{{activity.name}}</a>
             </li>
         </ul>

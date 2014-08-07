@@ -2,63 +2,75 @@
  * Created by zhouyong on 14-7-19.
  */
 angular.module('partyBidApp')
-    .controller('activitySignUpCtrl',function($scope,$location) {
+    .controller('activitySignUpCtrl',function($scope,$location,$routeParams) {
 
-        $scope.showUsers = function(houseName){
+        var activity = JSON.parse($routeParams.activity);
 
-            var users = $scope.users = getUsers(houseName);
+        $scope.showUsers = function(activity){
+
+            var users = $scope.users = User.getUsers(activity);
 
             $scope.signUpNum = users.length ? "(" + users.length + ")" + "人" : "";
         };
 
-
-        var activity ;
         (
             function(){
 
-                if(haveActivityRun()){
+                var signUpActivity = Activity.findByStatus(Global.SIGN_UP);
+                var priceActivity = Activity.findByStatus(Global.PRICE);
 
-                    activity = getActivityByHouseName(Global.HOUSE_RUN);
+                if(signUpActivity || priceActivity){
 
-                    if(isTheRun(getActivityByHouseName(Global.HOUSE_READY_RUN))){
-                        $scope.showUsers(activity.name);
+                    if(activity.status == Global.SIGN_UP){
+
+                        activity = signUpActivity;  //解决浏览器刷新的问题
+
                         $scope.start_end = "end";
-                    }else{
-                        $scope.able = true;
-                        $scope.showUsers(getActivityByHouseName(Global.HOUSE_READY_RUN).name);
-                    }
 
-                }else{
-                    activity = getActivityByHouseName(Global.HOUSE_READY_RUN);
-                    $scope.showUsers(activity.name);
+                    }else if(activity.status == Global.PRICE){
+                        $scope.start_end = "end"
+                        $scope.end_able = true;
+                    }else{
+                        $scope.start_able = true;
+                    }
                 }
+                $scope.showUsers(activity);
             }
         )();
 
         $scope.start = function(){
 
-            activity.status = Global.START;
+            activity.status = Global.SIGN_UP;
 
-            saveActivity(activity,Global.HOUSE_RUN);
-
-            freshActivitiesStatus(activity,Global.START);
+            Activity.freshActivities(activity);
 
             $scope.start_end = "end" ;
         };
 
         $scope.end = function(){
 
-            if(confirm("确认要结束本次报名吗？")){
+            if(confirm("确认要结束本次报名吗？")) {
 
-                $scope.able = true ;
+                var activity = Activity.findByStatus(Global.SIGN_UP);
 
-                removeActivity(Global.HOUSE_RUN);
+                activity.status = Global.PRICE;
 
-                freshActivitiesStatus(activity,Global.NO_START);
+                Activity.freshActivities(activity);
 
-                $location.path("/priceList");
+                $location.path("/priceList/" + JSON.stringify(activity));
             }
         };
+
+
+        $scope.bidList = function(){
+
+            $location.path("/priceList/" + JSON.stringify(activity));
+        };
+
+
+
+
+
 
 
     });

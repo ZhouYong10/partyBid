@@ -4,18 +4,101 @@ function Activity(name){
 
     this.name = name;
     this.status = Global.NO_START;
+    this.users = [];
+    this.bids = [];
 
 }
 
+
+Activity.getActivities = function(){
+    return JSON.parse(localStorage.getItem(Global.HOUSE_ACTIVITIES)) || [];
+};
+
+Activity.saveActivities = function(activities){
+    localStorage.setItem(Global.HOUSE_ACTIVITIES,JSON.stringify(activities));
+};
+
+Activity.exist = function(activity){
+    var activities = Activity.getActivities();
+
+    if(findIndexById(activity.name,"name",activities) != -1){
+        return true;
+    }
+    return false;
+};
+
+Activity.save = function(activity){
+    var activities = Activity.getActivities();
+
+    activities.unshift(activity);
+
+    Activity.saveActivities(activities);
+};
+
+Activity.findByStatus = function(status){
+    var activities = Activity.getActivities();
+
+    var index = findIndexById(status,"status",activities);
+
+    if(index != -1){
+        return activities[index];
+    }
+    return false;
+};
+
+Activity.freshActivities = function(activity){
+    var activities = Activity.getActivities();
+
+    var index = findIndexById(activity.name,"name",activities);
+
+    activities[index] = activity;
+
+    Activity.saveActivities(activities);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
 getActivities = function(){
 
-   return JSON.parse(localStorage.getItem(Global.HOUSE_ACTIVITIES)) || [] ;
+    return JSON.parse(localStorage.getItem(Global.HOUSE_ACTIVITIES)) || [] ;
 };
 
 
 saveActivities = function(activities){
 
     localStorage.setItem(Global.HOUSE_ACTIVITIES,JSON.stringify(activities));
+};
+
+
+activityExist = function(activity){
+
+    var activities = getActivities();
+
+    if(findIndexByName(activity.name,activities) != -1){
+
+        return true;
+    }
+
+    return false;
 };
 
 
@@ -41,15 +124,35 @@ findIndexByName = function(activityName,activities){
 };
 
 
-activityExist = function(activity){
-
+freshActivities = function(activity){
     var activities = getActivities();
 
-    if(findIndexByName(activity.name,activities) != -1){
+    var index = findIndexByName(activity.name,activities);
 
+    activities[index] = activity;
+
+    saveActivities(activities);
+};
+
+
+findActivityByStatus = function(status){
+    var activities = getActivities();
+
+    for(var x = 0; x < activities.length; x++){
+
+        if(activities[x].status == status){
+            return activities[x];
+        }
+    }
+    return false;
+};
+
+
+isTheRun = function(activity){
+
+    if(activity.status == Global.SIGN_UP){
         return true;
     }
-
     return false;
 };
 
@@ -86,37 +189,6 @@ getActivityByHouseName = function(houseName){
 };
 
 
-isTheRun = function(activity){
-
-    var activity_run = getActivityByHouseName(Global.HOUSE_RUN);
-    if(activity.name == activity_run.name){
-        return true;
-    }
-    return false;
-};
-
-
-haveActivityRun = function(){
-    var activity = getActivityByHouseName(Global.HOUSE_RUN);
-
-    if(activity){
-        return activity;
-    }
-    return false;
-};
-
-
-freshActivitiesStatus = function(activity,status){
-    var activities = getActivities();
-
-    var index = findIndexByName(activity.name,activities);
-
-    activities[index].status = status;
-
-    saveActivities(activities);
-};
-
-
 freshActivityStatus = function(status,houseName){
 
     var activity = getActivityByHouseName(houseName);
@@ -124,4 +196,4 @@ freshActivityStatus = function(status,houseName){
     activity.status = status;
 
     saveActivity(activity,houseName);
-};
+};*/

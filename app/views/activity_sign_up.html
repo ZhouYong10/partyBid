@@ -1,10 +1,9 @@
 
-
 <header>
     报名{{signUpNum}}
     <div class="header-right" ng-switch="start_end">
-        <button class="btn-style btn-4" ng-switch-when="end" ng-click="end()">结束</button>
-        <button class="btn btn-4" ng-switch-default="start" ng-disabled="able" ng-click="start()">开始</button>
+        <button class="btn btn-4" ng-switch-when="end" ng-disabled="end_able" ng-click="end()">结束</button>
+        <button class="btn btn-4" ng-switch-default="start" ng-disabled="start_able" ng-click="start()">开始</button>
     </div>
     <div class="header-left">
         <a href="#/activityList" class="side-slide-trigger btn-style btn-4">返回</a>
@@ -20,10 +19,9 @@
 
 
 
-
 <footer>
     <ul class="footer-nav footer-nav-2tabs">
         <li class="active"><a href="user-manage.html"><br /><h4>报名</h4></a></li>
-        <li><a href="user-group.html"><br /><h4>竞价</h4></a></li>
+        <li><a ng-click="bidList()"><br /><h4>竞价</h4></a></li>
     </ul>
 </footer>
