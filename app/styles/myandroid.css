@@ -155,13 +155,6 @@ footer {
 	background-image:-webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #3d3d3d), color-stop(1, #272727));
 }
 
-.footer-nav li:hover a, .footer-nav li:active a, .footer-nav li.active a {
-	color: #2cc0ff;
-	text-shadow: #000 -1px -1px;
-	border-left: none;
-	border-right: none;
-	background-image:-webkit-gradient(linear, 0 0, 0 100%, color-stop(0, #242424), color-stop(1, #242424));
-}
 
 .footer-nav li a i {
 	font-size: 30px;

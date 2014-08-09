@@ -12,7 +12,7 @@
     <div class="wrapper-inner">
         <ul>
             <li ng-repeat="activity in activities" type="none" >
-            <a ng-class="{true:'btn btn-one',false:'btn btn-one-f'}[activity.status == 'start' || activity.status == 'price']"
+            <a ng-class="{true:'btn btn-one',false:'btn btn-one-f'}[activity.status == 'signUp' || activity.status == 'price']"
                ng-click="action(activity)">{{activity.name}}</a>
             </li>
         </ul>

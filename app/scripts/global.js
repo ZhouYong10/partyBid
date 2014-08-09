@@ -1,8 +1,15 @@
 var Global = {
+
+    DOWN : "down",
+    UP : "up",
+
     NO_START : "no",
-    SIGN_UP : "start",
+    SIGN_UP : "signUp",
+    SIGN_END : "signEnd",
+
     PRICE : "price",
-    END : "end",
+    PRICE_END : "priceEnd",
+
 
     HOUSE_ACTIVITIES : "activities",
     HOUSE_READY_RUN : "ready",

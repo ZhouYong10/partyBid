@@ -43,6 +43,10 @@ angular
             templateUrl:'/views/price_activity.html',
             controller:'priceActivityCtrl'
         })
+        .when('/priceResult',{
+            templateUrl:"/views/price_result.html",
+            controller:"priceResultCtrl"
+        })
       .otherwise({
         redirectTo: '/'
       });

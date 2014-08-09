@@ -3,7 +3,7 @@
     {{activityName}}&nbsp;&nbsp;{{bidName}}&nbsp;&nbsp;竞价{{signUpNum}}
     <div class="header-right" ng-switch="start_end">
         <button class="btn btn-4" ng-switch-when="end" ng-click="priceEnd()">结束</button>
-        <button class="btn btn-4" ng-switch-default="start" ng-disabled="able" ng-click="priceStart()">开始</button>
+        <button class="btn btn-4" ng-switch-default="start" ng-disabled="start_able" ng-click="priceStart()">开始</button>
     </div>
     <div class="header-left">
         <a class="btn btn-4" ng-click="back()">返回</a>

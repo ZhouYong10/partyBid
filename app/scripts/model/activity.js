@@ -1,13 +1,51 @@
 
 
 function Activity(name){
-
     this.name = name;
+
+    this.token = Global.DOWN ;
+    this.run = Global.DOWN;
+
     this.status = Global.NO_START;
     this.users = [];
     this.bids = [];
 
 }
+
+Activity.getToken = function(activity){
+
+    var activities = Activity.getActivities();
+
+    for(var x = 0; x < activities.length; x++){  //清除所有活动的执行权
+        activities[x].token = Global.DOWN;
+    }
+
+    var index = findIndexById(activity.name,"name",activities);
+
+    if(index != -1){
+        activities[index].token = Global.UP;
+        Activity.saveActivities(activities);
+        return activities[index];
+    }else{
+        activity.token = Global.UP;
+        Activity.saveActivities(activities);
+        return activity;
+    }
+
+};
+
+
+Activity.getTokenActivity = function(){
+
+    var activities = Activity.getActivities();
+
+    var index = findIndexById(Global.UP,"token",activities);
+
+    if(index != -1){
+        return activities[index];
+    }
+    return false;
+};
 
 
 Activity.getActivities = function(){
@@ -30,8 +68,13 @@ Activity.exist = function(activity){
 Activity.save = function(activity){
     var activities = Activity.getActivities();
 
-    activities.unshift(activity);
+    var index = findIndexById(activity.name,"name",activities);
 
+    if(index != -1){
+        activities[index] = activity;
+    }else{
+        activities.unshift(activity);
+    }
     Activity.saveActivities(activities);
 };
 
@@ -42,6 +85,17 @@ Activity.findByStatus = function(status){
 
     if(index != -1){
         return activities[index];
+    }
+    return false;
+};
+
+Activity.getRunActivity = function(){
+
+   var activities = Activity.getActivities();
+    for(var x = 0; x < activities.length; x++){
+        if(activities[x].run == Global.UP){
+            return activities[x];
+        }
     }
     return false;
 };

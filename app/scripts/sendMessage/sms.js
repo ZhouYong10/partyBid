@@ -13,23 +13,25 @@ var native_accessor = {
     },
 
     process_received_message: function (json_message) {
-
-        var messageToUser;
-        var userPhone;
+        var messageToUser ;
+        var userPhone ;
 
         var messages = json_message.messages;
-        var message;
-        var flag;
 
-        for(var x = 0; x < messages.length; x++){
+        for (var x = 0; x < messages.length; x++) {
 
             userPhone = messages[x].phone;
+            var userName = getUserNameFromMsg(messages[x].message);
 
-            message = messages[x].message.replace(/\s+/g,"");
+            if(userName){
 
-            flag = message.substring(0,2).toLowerCase();
+                var user = new User(userName, userPhone);
 
-            messageToUser = User.choose(flag,message,userPhone);
+                messageToUser = signUp(user);
+            }else{
+
+                messageToUser = "报名失败，请检查报名格式是否正确。";
+            }
 
             this.send_sms(userPhone, messageToUser);
         }

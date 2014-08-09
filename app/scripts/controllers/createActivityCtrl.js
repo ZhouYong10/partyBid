@@ -26,6 +26,9 @@ angular.module("partyBidApp")
                 $scope.message = true;
                 return ;
             }
+            if(!Activity.getRunActivity()){
+               activity = Activity.getToken(activity);
+            }
             Activity.save(activity);
 
             $location.path("/activitySignUp/" + JSON.stringify(activity));

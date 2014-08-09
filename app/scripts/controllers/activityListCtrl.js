@@ -12,11 +12,11 @@ angular.module('partyBidApp')
                     $location.path("createActivity");
                 }
 
-                if(Activity.findByStatus(Global.PRICE)){
-                    if(Bid.hadBid(Activity.findByStatus(Global.PRICE))){
-                        $scope.create = true;
-                    }
-                }
+//                if(Activity.findByStatus(Global.PRICE)){
+//                    if(Bid.getRunBid(Activity.findByStatus(Global.PRICE))){
+//                        $scope.create = true;
+//                    }
+//                }
             }
         )();
 
@@ -26,7 +26,14 @@ angular.module('partyBidApp')
 
         $scope.action = function(activity){
             delete activity.$$hashKey;
-            $location.path("/activitySignUp/" + JSON.stringify(activity));
+
+            var tokenActivity = activity;
+            if(!Activity.getRunActivity()){
+               tokenActivity =  Activity.getToken(activity);
+                tokenActivity.status = Global.NO_START;
+                Activity.freshActivities(tokenActivity);
+            }
+            $location.path("/activitySignUp/" + JSON.stringify(tokenActivity));
         };
 
     });
