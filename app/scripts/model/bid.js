@@ -88,8 +88,10 @@ Bid.bid = function(message,userPhone,activity){
         if(Bid.hadPrice(signUpUser,tokenBid)){
             messageToUser = "您已经出价了，不能重复出价。";
         }else{
-            signUpUser.priceNum = tokenBid.users.length + 1;
-            tokenBid.users.push(user);
+            var priceUser = new User(signUpUser.name,signUpUser.phone);
+            priceUser.priceNum = tokenBid.users.length + 1;
+            priceUser.price = message.substring(2);
+            tokenBid.users.push(priceUser);
 
             Activity.freshActivities(activity);
 

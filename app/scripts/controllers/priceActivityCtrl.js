@@ -4,20 +4,19 @@ angular.module("partyBidApp")
         var activity = JSON.parse($routeParams.activity);
         var bid = JSON.parse($routeParams.bid);
 
-        var runActivity = Activity.getRunActivity();
-        var runBid ;
-        if(runActivity){
-            runBid = Bid.getRunBid(runActivity);
-        }
-
         $scope.activityName = activity.name;
         $scope.bidName = bid.name;
 
+
+        var runActivity = Activity.getRunActivity();
+        var runBid ;
+
         $scope.showBidUsers = function(priceBid){
-            if(runBid && activity.name == runActivity.name && bid.name == runBid.name){
+
+            if(runActivity && runBid && activity.name == runActivity.name && bid.name == runBid.name){
                 var users = priceBid.users;
-            }else if(runBid){
-                users = runBid.users;
+            }else{
+                users = bid.users;
             }
             $scope.bidUsers = users;
 
@@ -29,16 +28,15 @@ angular.module("partyBidApp")
 
                 if(runActivity){
 
-                    var runBid = Bid.getRunBid(runActivity);
+                    runBid = Bid.getRunBid(runActivity);
 
-                    if(runBid && runBid.name == bid.name){
+                    if(runBid && activity.name == runActivity.name && runBid.name == bid.name){
                         $scope.start_end = "end";
                     }else{
                         $scope.start_able = true;
                     }
                 }
                 $scope.showBidUsers(bid);
-
 //                var priceBid = Bid.getRunBid(Activity.findByStatus(Global.PRICE));
 //
 //                if(priceBid){
@@ -58,27 +56,31 @@ angular.module("partyBidApp")
         $scope.priceStart = function(){
 
             bid.status = Global.PRICE;
+            activity.run = Global.UP;
+            activity.status = Global.PRICE;
 
-//            var priceActivity = Activity.findByStatus(Global.PRICE);
-
-//            $location.path("/priceActivity/" + JSON.stringify(bid) + JSON.stringify(activity)); //解决浏览器刷新问题,手机上不需要这段代码
+            Bid.deleteHashKey(activity.bids);
 
             Bid.freshBid(bid,activity);
 
             $scope.start_end = "end";
+            runActivity = Activity.getRunActivity();
+            runBid = Bid.getRunBid(runActivity);
         };
 
 
         $scope.priceEnd = function(){
 
             if(confirm("确认要结束本次竞价吗？")){
-                bid.status = Global.END;
+                bid.status = Global.PRICE_END;
+                activity.run = Global.DOWN;
+                activity.status = Global.PRICE_END;
 
-//                var priceActivity = Activity.findByStatus(Global.PRICE);
+                Bid.deleteHashKey(activity.bids);
 
                 Bid.freshBid(bid,activity);
 
-                $location.path("/priceResult/" + JSON.stringify(activity));
+                $location.path("/priceResult/" + JSON.stringify(Activity.getTokenActivity()));
             }
         };
 
