@@ -94,7 +94,7 @@ User.choose = function(flag,message,userPhone){
             messageToUser = "发生错误，请检查短信格式是否正确。";
     }
     return messageToUser;
-}
+};
 
 User.deleteHashKey = function(users){
     for(var x = 0; x < users.length; x++){

@@ -70,8 +70,8 @@ angular.module('partyBidApp')
             activity.run = Global.UP;
 
             Activity.freshActivities(activity);
-
             $scope.start_end = "end" ;
+
             $scope.bid = true;
         };
 

@@ -93,9 +93,8 @@ Bid.bid = function(message,userPhone,activity){
             priceUser.price = message.substring(2);
             tokenBid.users.push(priceUser);
 
-            Activity.freshActivities(activity);
-
             Bid.freshBidList(tokenBid);
+            Activity.freshActivities(activity);
 
             messageToUser = "恭喜，出价成功。";
         }
@@ -122,10 +121,69 @@ Bid.deleteHashKey = function(bids){
         if(bids[x].$$hashKey){
             delete bids[x].$$hashKey;
         }
+        User.deleteHashKey(bids[x].users);
     }
 };
 
+Bid.sortUsers = function(users){
 
+    for(var x = 0; x < users.length-1; x++){
+        for(var y = x+1; y < users.length; y++){
+            if(users[x]['price'] - users[y]['price'] > 0){
+                var temp = users[x];
+                users[x] = users[y];
+                users[y] = temp;
+            }
+        }
+    }
+    return users;
+};
+
+Bid.findMinPriceUser = function(users){
+
+    for(var x = 0; x < users.length-2; x++){
+        if(x == 0 && users[x].price - users[x+1].price < 0){
+           return users[x];
+        }
+        if(x != 0 && users[x].price - users[x+1].price < 0 && users[x+1].price - users[x+2].price < 0){
+            return users[x+1];
+        }
+        if(x == users.length-3 && users[x+1].price - users[x+2].price < 0){
+            return users[x+2];
+        }
+    }
+    return -1;
+};
+
+Bid.total = function(bid){
+    var users = bid.users;
+    var total = [];
+
+    var temp = {
+        num: 1,
+        price:null
+    };
+    for(var x = 0; x < users.length-1; x++){
+
+        if(users[x].price == users[x+1].price){
+            temp.num += 1;
+        }
+        if(users[x].price - users[x+1].price < 0){
+            temp.price = users[x].price;
+            total.push(temp);
+
+            temp = {
+                num: 1,
+                price:null
+            };
+        }
+        if(x+2 == users.length){
+            temp.price = users[x+1].price;
+            total.push(temp);
+        }
+    }
+    return total;
+};
 
 
 

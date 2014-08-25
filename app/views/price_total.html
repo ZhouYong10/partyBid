@@ -1,0 +1,17 @@
+
+<header>
+    竞价 &nbsp;({{users.length}})人
+    <div class="header-right">
+        <button class="side-slide-trigger btn-style btn-4" ng-click="result()">列表</button>
+    </div>
+    <div class="header-left">
+        <a ng-click="priceList()" class="side-slide-trigger btn-style btn-4">返回</a>
+    </div>
+</header>
+
+<div  class="wrapper scrollable">
+    <div class="form-wrapper" ng-repeat="item in total">
+        <a class="btn-style btn-3">￥&nbsp;&nbsp;&nbsp;&nbsp;{{item.price}}<i class="icon-angle-right">{{item.num}}&nbsp;&nbsp;&nbsp;&nbsp;人</i></a>
+    </div>
+</div>
+

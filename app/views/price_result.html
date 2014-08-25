@@ -1,0 +1,42 @@
+
+<header>
+    竞价结果 &nbsp;({{users.length}})人
+    <div class="header-right">
+        <button class="side-slide-trigger btn-style btn-4" ng-click="total()">统计</button>
+    </div>
+    <div class="header-left">
+        <a ng-click="back()" class="side-slide-trigger btn-style btn-4">返回</a>
+    </div>
+</header>
+
+<div  class="wrapper scrollable">
+    <div class="form-wrapper" ng-repeat="user in users">
+        <a class="btn-style btn-3">{{user.priceNum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{user.name}}<i class="icon-angle-right">{{user.price}}</i></a>
+    </div>
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close"
+                data-dismiss="modal" aria-hidden="false">
+            &times;
+        </button>
+        <h6 class="modal-title" id="myModalLabel">
+           竞价结果：
+        </h6>
+    </div>
+    <div class="modal-body">
+       {{winUser.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{winUser.price?"￥"+winUser.price:""}}<br/>
+        {{winUser.phone}}<br/>
+       {{mesg}}
+    </div>
+</div><!-- /.modal -->
+
+<footer ng-show="able">
+    <a class="btn-style btn-3">{{result?"竞价结果：":""}} &nbsp;&nbsp;
+        {{result.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {{result?"￥ &nbsp;&nbsp; "+result.price:""}}<i class="icon-angle-right">{{result.phone}}</i></a>
+</footer>

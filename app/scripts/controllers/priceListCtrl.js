@@ -42,6 +42,9 @@ angular.module("partyBidApp")
 
             if(!Bid.getRunBid(activity)){
                 bid = Bid.getToken(activity,bid);
+                bid.status = Global.PRICE;
+                activity.run = Global.UP;
+                activity.status = Global.PRICE;
             }
 
             Bid.deleteHashKey(activity.bids);
@@ -64,4 +67,10 @@ angular.module("partyBidApp")
 
             $location.path("/priceActivity/" + JSON.stringify(tokenBid) + "/" + JSON.stringify(activity));
         };
+
+        $scope.signUp = function(){
+            $location.path('/activitySignUp/' + JSON.stringify(activity));
+        };
+
+
     });

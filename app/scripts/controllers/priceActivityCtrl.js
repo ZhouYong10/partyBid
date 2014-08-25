@@ -70,8 +70,9 @@ angular.module("partyBidApp")
 
 
         $scope.priceEnd = function(){
-
             if(confirm("确认要结束本次竞价吗？")){
+                var activity = Activity.getTokenActivity();
+                var bid = Bid.getTokenBid(activity);
                 bid.status = Global.PRICE_END;
                 activity.run = Global.DOWN;
                 activity.status = Global.PRICE_END;
@@ -80,13 +81,12 @@ angular.module("partyBidApp")
 
                 Bid.freshBid(bid,activity);
 
-                $location.path("/priceResult/" + JSON.stringify(Activity.getTokenActivity()));
+                $location.path("/priceResult/" + JSON.stringify(activity));
             }
         };
 
 
         $scope.back = function(){
-
             $location.path("/priceList/" + JSON.stringify(activity));
         };
     });
